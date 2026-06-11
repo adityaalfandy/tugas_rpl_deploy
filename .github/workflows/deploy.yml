@@ -1,0 +1,43 @@
+name: CI/CD Pipeline Tugas RPL
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  # Tahap 1: Pengujian Otomatis (CI)
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repositori
+        uses: actions/checkout@v4
+      
+      - name: Saringan Unit Test (Dummy)
+        run: |
+          echo "Mengecek keberadaan file utama..."
+          if [ -f "Index.html" ]; then
+            echo "Test Berhasil: Index.html ditemukan!"
+          else
+            echo "Test Gagal: Index.html tidak ada."
+            exit 1
+          fi
+
+      - name: Simulasi Pengamanan API Key
+        env:
+          RAHASIA: ${{ secrets.API_TOKEN_RAHASIA }}
+        run: echo "Menguji pemuatan GitHub Secrets dengan aman."
+
+  # Tahap 2: Rilis Otomatis (CD)
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repositori
+        uses: actions/checkout@v4
+        
+      - name: Deploy ke GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
