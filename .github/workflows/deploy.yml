@@ -16,10 +16,10 @@ jobs:
       - name: Saringan Unit Test (Dummy)
         run: |
           echo "Mengecek keberadaan file utama..."
-          if [ -f "Index.html" ]; then
-            echo "Test Berhasil: Index.html ditemukan!"
+          if [ -f "index.html" ]; then
+            echo "Test Berhasil: index.html ditemukan!"
           else
-            echo "Test Gagal: Index.html tidak ada."
+            echo "Test Gagal: index.html tidak ada."
             exit 1
           fi
 
